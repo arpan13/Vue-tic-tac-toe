@@ -54,6 +54,7 @@ export default {
     return {
       winMessage: "",
       isCross: true,
+      draw: false,
       itemArray: new Array(9).fill("empty"),
     };
   },
@@ -105,6 +106,7 @@ export default {
         this.itemArray[6] === this.itemArray[7] &&
         this.itemArray[7] === this.itemArray[8]
       ) {
+        this.isDraw = false;
         this.winMessage = `${this.itemArray[6]} won`;
       } else if (
         this.itemArray[0] !== "empty" &&
@@ -123,6 +125,7 @@ export default {
         this.itemArray[2] === this.itemArray[5] &&
         this.itemArray[5] === this.itemArray[8]
       ) {
+        this.isDraw = false;
         this.winMessage = `${this.itemArray[2]} won`;
       } else if (
         this.itemArray[0] !== "empty" &&
@@ -136,12 +139,19 @@ export default {
         this.itemArray[4] === this.itemArray[6]
       ) {
         this.winMessage = `${this.itemArray[2]} won`;
+      } else if (this.isDraw()) {
+        return Swal.fire("Draw");
       }
     },
     reloadGame() {
       this.winMessage = "";
       this.isCross = true;
       this.itemArray = new Array(9).fill("empty");
+    },
+    isDraw() {
+      return this.itemArray.every((cell) => {
+        return cell === "cross" || cell === "circle";
+      });
     },
   },
 };
